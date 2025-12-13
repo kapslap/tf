@@ -1,1133 +1,201 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#000000">  
-<meta charset="UTF-8" />
-  <title>TriFlow - 12 Week 1:1 Journey For Men</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --bg: #050608;
-      --bg-alt: #0b0d13;
-      --accent: #32c18f;
-      --accent-soft: rgba(50, 193, 143, 0.1);
-      --text: #f5f7fb;
-      --muted: #a5adbd;
-      --border: #222634;
-      --danger: #f97373;
-      --max-width: 900px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #111827 0, #020308 45%);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      padding: 0 16px 64px;
-    }
-
-    .page {
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    header {
-      padding: 32px 0 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-mark {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-      overflow: visible;
-    }
-
-    .logo-mark svg {
-      width: 32px;
-      height: 32px;
-      display: block;
-    }
-
-    .brand-title {
-      font-size: 14px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .header-cta a {
-      font-size: 14px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--accent-soft);
-      color: var(--accent);
-      text-decoration: none;
-      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
-        transform 0.1s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-cta a span {
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    .header-cta a:hover {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-      transform: translateY(-1px);
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    section {
-      padding: 24px 20px;
-      border-radius: 18px;
-      background: radial-gradient(circle at top left, #111827 0, #020308 55%);
-      border: 1px solid var(--border);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-    }
-
-    .hero {
-      margin-top: 12px;
-      padding: 28px 20px 24px;
-      border-radius: 24px;
-      border: 1px solid var(--accent-soft);
-      background:
-        radial-gradient(circle at top left, rgba(50, 193, 143, 0.15), transparent 45%),
-        radial-gradient(circle at bottom right, #020617, #020308 55%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(148, 163, 184, 0.16), transparent 55%);
-      opacity: 0.55;
-      pointer-events: none;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-kicker {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .hero-title {
-      font-size: clamp(32px, 4vw, 40px);
-      line-height: 1.1;
-      letter-spacing: 0.02em;
-      margin-bottom: 8px;
-    }
-
-    .hero-subtitle {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 16px;
-    }
-
-    .hero-tagline {
-      font-size: 16px;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    .hero-badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .hero-badge {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      padding: 6px 11px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      background: rgba(15, 23, 42, 0.75);
-      color: var(--muted);
-    }
-
-    .hero-cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #020617;
-      border-radius: 999px;
-      padding: 11px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 0;
-      cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.16s ease;
-      box-shadow: 0 10px 30px rgba(34, 197, 94, 0.35);
-    }
-
-    .btn-primary span {
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    .btn-primary:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-      box-shadow: 0 16px 40px rgba(34, 197, 94, 0.45);
-    }
-
-    .hero-note {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .eyebrow {
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-
-    h1 {
-      margin: 0;
-    }
-
-    h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    h3 {
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    p + p {
-      margin-top: 8px;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .stack {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .stack-lg {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .list {
-      margin-top: 8px;
-      padding-left: 18px;
-    }
-
-    .list li {
-      margin-bottom: 4px;
-    }
-
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .pill {
-      font-size: 13px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      color: var(--muted);
-      background: rgba(15, 23, 42, 0.6);
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 20px;
-      margin-top: 10px;
-    }
-
-    .card {
-      padding: 14px 14px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.32);
-      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.3), #020308);
-    }
-
-    .card-soft {
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px dashed rgba(148, 163, 184, 0.4);
-      background: rgba(15, 23, 42, 0.85);
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .tag-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 10px rgba(50, 193, 143, 0.7);
-    }
-
-    .stat-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .stat-pill {
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-    }
-
-    .highlight {
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .divider {
-      height: 1px;
-      width: 100%;
-      border: 0;
-      border-bottom: 1px solid var(--border);
-      margin: 14px 0 6px;
-    }
-
-    .price {
-      font-size: 26px;
-      font-weight: 600;
-      margin-top: 6px;
-      margin-bottom: 6px;
-    }
-
-    .guarantee-box {
-      border-radius: 18px;
-      border: 1px solid rgba(52, 211, 153, 0.6);
-      background: radial-gradient(circle at top left, rgba(52, 211, 153, 0.18), #020308);
-      padding: 16px 16px 14px;
-      margin-top: 10px;
-    }
-
-    .guarantee-label {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-
-    .choice-box {
-      border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.22), #020308);
-      padding: 18px 16px 16px;
-    }
-
-    .choice-box h2 {
-      margin-bottom: 4px;
-    }
-
-    .choice-box p + p {
-      margin-top: 6px;
-    }
-
-    .choice-note {
-      margin-top: 10px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .footer-cta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .footnote {
-      margin-top: 20px;
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .box-variant-1 {
-      background: linear-gradient(135deg, #0f172a 0%, #020308 65%);
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      border-radius: 20px;
-      padding: 24px 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
-    }
-
-    .box-variant-2 {
-      background:
-        radial-gradient(circle at top left, rgba(50,193,143,0.12), transparent 55%),
-        linear-gradient(to bottom right, #111827, #020308);
-      border: 1px solid rgba(50,193,143,0.35);
-      border-radius: 18px;
-      padding: 26px 22px;
-      box-shadow: 0 0 30px rgba(50,193,143,0.08);
-    }
-
-    .box-variant-3 {
-      background: #0b0e14;
-      border: 1px solid rgba(180, 190, 210, 0.18);
-      border-left: 3px solid var(--accent);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: inset 0 0 12px rgba(255,255,255,0.05);
-    }
-
-    .box-variant-4 {
-      background: #0a0d13;
-      border-radius: 22px;
-      padding: 28px 24px;
-      border: 1px solid rgba(148,163,184,0.12);
-      box-shadow:
-        0 8px 20px rgba(0,0,0,0.55),
-        inset 0 0 20px rgba(255,255,255,0.03);
-    }
-
-    .box-variant-5 {
-      background:
-        repeating-linear-gradient(
-          135deg,
-          rgba(255,255,255,0.02),
-          rgba(255,255,255,0.02) 2px,
-          transparent 2px,
-          transparent 4px
-        ),
-        linear-gradient(145deg, #111827, #020308);
-      border-radius: 18px;
-      border: 1px solid rgba(148,163,184,0.25);
-      padding: 24px 22px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-    }
-
-    .box-variant-6 {
-      background: #05070c;
-      border-radius: 20px;
-      border: 1px solid rgba(50,193,143,0.4);
-      padding: 26px;
-      box-shadow:
-        0 0 22px rgba(50,193,143,0.15),
-        inset 0 0 20px rgba(50,193,143,0.08);
-    }
-
-    .box-variant-7 {
-      background: linear-gradient(to bottom, #111827, #0d1117);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
-      padding: 22px 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-    }
-
-    @media (max-width: 720px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .header-cta {
-        width: 100%;
-      }
-      .header-cta a {
-        justify-content: center;
-        width: 100%;
-      }
-      .hero {
-        padding: 24px 18px 20px;
-      }
-      section {
-        padding: 20px 16px;
-      }
-      .grid-2 {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .hero-cta-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .btn-primary {
-        width: 100%;
-        justify-content: center;
-      }
-      .box-variant-1,
-      .box-variant-2,
-      .box-variant-3,
-      .box-variant-4,
-      .box-variant-5,
-      .box-variant-6,
-      .box-variant-7 {
-        padding: 20px 16px;
-      }
-    }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa; min-height: 15.0px}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #2eb77c; -webkit-text-stroke: #2eb77c}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px 'Helvetica Neue'; color: #2eb77c; -webkit-text-stroke: #2eb77c}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #2eb77c; -webkit-text-stroke: #2eb77c}
+    p.p7 {margin: 0.0px 0.0px 16.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf}
+    p.p8 {margin: 0.0px 0.0px 20.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf; background-color: #0d121f; background-color: rgba(13, 18, 31, 0.75)}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 15.0px '.SF NS'; color: #030712; -webkit-text-stroke: #030712}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 18.0px '.SF NS'; color: #030712; -webkit-text-stroke: #030712}
+    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf}
+    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf}
+    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa}
+    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.SF NS'; color: #2eb77c; -webkit-text-stroke: #2eb77c}
+    p.p19 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf; background-color: #2eb77c; min-height: 13.0px}
+    p.p20 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf}
+    p.p21 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #6d6d6d; -webkit-text-stroke: #6d6d6d; min-height: 15.0px}
+    p.p22 {margin: 0.0px 0.0px 6.0px 0.0px; font: 26.0px '.SF NS'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa}
+    p.p23 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf; background-color: #0d121f; background-color: rgba(13, 18, 31, 0.9)}
+    p.p24 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #2eb77c; -webkit-text-stroke: #2eb77c}
+    p.p26 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa; background-color: #0a0c10}
+    p.p27 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 11.0px 'Helvetica Neue'; color: #949daf; -webkit-text-stroke: #949daf}
+    li.li17 {margin: 0.0px 0.0px 4.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa}
+    li.li18 {margin: 0.0px 0.0px 4.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #f2f5fa}
+    span.s1 {font-kerning: none}
+    span.s2 {font-kerning: none; background-color: #2eb77c}
+    span.s3 {font-kerning: none; background-color: #0b0c10}
+    span.s4 {background-color: #0b0c10; -webkit-text-stroke: 0px #000000}
+    span.s5 {-webkit-text-stroke: 0px #000000}
+    span.s6 {font-kerning: none; background-color: #0a0c10}
+    span.s7 {font-kerning: none; background-color: #06080b}
+    ul.ul1 {list-style-type: disc}
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <div class="brand">
-        <div class="logo-mark" aria-hidden="true">
-          <!-- Inline logo SVG -->
-          <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-               viewBox="0 0 2048 2048"
-               preserveAspectRatio="xMidYMid meet" role="img">
-            <g transform="translate(0.000000,2048.000000) scale(0.100000,-0.100000)"
-               fill="#ffffff" stroke="none">
-              <path d="M9950 16536 c-107 -6 -204 -16 -215 -22 -11 -6 -76 -15 -145 -19 -69
--4 -131 -12 -138 -17 -7 -6 -47 -13 -90 -16 -42 -3 -86 -11 -97 -18 -11 -8
--42 -14 -70 -14 -28 0 -55 -4 -61 -10 -5 -5 -36 -12 -69 -15 -33 -4 -69 -10
--80 -15 -11 -5 -41 -11 -67 -15 -26 -3 -50 -10 -53 -16 -4 -5 -25 -9 -48 -9
--23 0 -51 -7 -61 -15 -11 -8 -34 -15 -52 -15 -18 0 -35 -4 -38 -9 -3 -5 -26
--12 -51 -15 -24 -4 -47 -11 -50 -17 -4 -5 -21 -9 -38 -9 -18 0 -41 -7 -51 -15
--11 -8 -32 -15 -48 -15 -15 0 -28 -4 -28 -10 0 -5 -15 -10 -32 -10 -18 0 -42
--7 -52 -15 -11 -8 -32 -15 -47 -15 -15 0 -31 -4 -34 -10 -3 -5 -16 -10 -29
--10 -12 0 -31 -7 -42 -15 -10 -8 -31 -15 -46 -15 -16 0 -28 -4 -28 -10 0 -5
--10 -10 -23 -10 -13 0 -32 -7 -43 -15 -10 -8 -27 -15 -37 -15 -9 0 -25 -4 -35
--9 -9 -4 -35 -16 -57 -26 -22 -9 -48 -21 -57 -26 -10 -5 -26 -9 -37 -9 -10 0
--24 -7 -31 -15 -7 -8 -19 -15 -26 -15 -13 0 -34 -9 -74 -32 -8 -4 -22 -11 -30
--14 -8 -3 -23 -10 -32 -15 -10 -5 -25 -9 -33 -9 -8 0 -15 -4 -15 -9 0 -4 -21
--16 -47 -26 -27 -10 -61 -26 -78 -36 -46 -28 -155 -79 -167 -79 -10 0 -42 19
--163 100 -68 46 -275 148 -405 200 -30 13 -64 26 -75 31 -89 36 -333 104 -530
-148 -276 61 -686 66 -985 10 -194 -35 -478 -119 -565 -166 -11 -6 -38 -19 -60
--28 -142 -60 -409 -219 -512 -304 -17 -14 -48 -39 -69 -56 -101 -79 -242 -216
--334 -325 -30 -35 -63 -73 -74 -85 -10 -11 -29 -36 -42 -55 -13 -19 -37 -53
--53 -75 -17 -22 -40 -58 -52 -80 -12 -22 -31 -52 -43 -66 -28 -35 -136 -250
--202 -404 -36 -84 -118 -365 -138 -470 -44 -240 -51 -338 -50 -640 1 -190 9
--308 30 -430 3 -16 7 -41 9 -55 18 -123 100 -404 152 -520 174 -388 307 -586
-563 -839 74 -73 142 -139 150 -146 23 -18 152 -117 185 -142 17 -13 51 -34 77
--48 26 -13 49 -29 52 -34 4 -5 39 -27 80 -50 l73 -40 7 -82 c5 -56 3 -85 -5
--95 -8 -10 -10 -51 -4 -144 5 -90 3 -135 -4 -144 -14 -17 14 -583 30 -603 6
--7 14 -73 18 -147 4 -73 12 -140 18 -147 5 -8 13 -49 16 -93 3 -43 10 -83 16
--89 6 -6 11 -34 11 -61 0 -28 7 -64 15 -80 8 -15 15 -50 15 -76 0 -30 6 -52
-15 -60 8 -7 15 -29 15 -50 0 -21 7 -51 15 -66 8 -16 15 -43 15 -61 0 -17 5
--35 10 -38 6 -3 10 -21 10 -39 0 -19 7 -39 15 -46 8 -7 15 -27 15 -46 0 -18 4
--35 9 -38 4 -3 11 -24 15 -46 3 -22 11 -40 16 -40 6 0 10 -13 10 -29 0 -17 4
--32 9 -35 5 -4 12 -24 16 -46 4 -22 11 -40 16 -40 5 0 9 -13 9 -30 0 -16 4
--30 10 -30 5 0 12 -16 16 -35 3 -19 10 -38 15 -41 5 -3 9 -14 9 -24 0 -10 11
--40 25 -66 14 -26 25 -53 25 -61 0 -7 4 -21 9 -31 4 -9 15 -33 23 -52 9 -19
-23 -52 32 -72 9 -20 21 -40 26 -43 6 -3 10 -16 11 -28 0 -12 9 -35 19 -52 32
--52 50 -88 50 -102 0 -7 11 -31 25 -53 14 -22 25 -44 25 -50 0 -5 5 -10 10
--10 6 0 10 -9 10 -19 0 -11 4 -21 9 -23 5 -1 27 -38 50 -81 55 -104 65 -121
-72 -127 3 -3 9 -12 13 -20 3 -8 20 -37 36 -65 16 -27 37 -66 46 -85 10 -19 20
--37 24 -40 14 -13 58 -78 73 -110 23 -47 39 -72 57 -90 18 -18 37 -47 49 -75
-5 -12 16 -27 25 -34 9 -7 16 -18 16 -23 0 -9 14 -28 60 -85 6 -7 10 -16 10
--21 0 -5 11 -19 25 -32 14 -13 25 -28 25 -33 0 -9 39 -58 86 -108 13 -14 24
--29 24 -34 0 -9 109 -141 168 -201 23 -24 42 -48 42 -51 0 -17 418 -428 487
--481 27 -19 84 -68 128 -107 44 -40 98 -84 120 -98 22 -14 58 -42 80 -61 22
--20 44 -36 50 -36 6 0 31 -18 55 -40 25 -22 50 -40 55 -40 6 0 26 -14 45 -30
-19 -16 40 -30 45 -30 6 0 26 -14 45 -30 19 -16 40 -30 46 -30 5 0 19 -8 30
--17 23 -22 122 -83 133 -83 4 0 16 -9 26 -20 10 -11 26 -20 37 -20 10 0 18 -4
-18 -8 0 -5 21 -19 48 -32 26 -13 59 -32 74 -42 14 -10 33 -18 41 -18 9 0 17
--3 19 -7 2 -5 17 -16 33 -25 32 -18 35 -36 23 -123 -37 -250 -42 -577 -13
--762 26 -167 77 -413 95 -458 4 -11 23 -67 41 -125 47 -150 81 -235 164 -405
-202 -413 499 -756 882 -1017 110 -76 326 -196 433 -241 158 -66 367 -133 495
--158 198 -39 244 -45 370 -54 417 -27 825 35 1185 180 210 85 323 144 587 310
-258 161 562 457 730 710 102 155 129 200 182 303 60 119 109 233 141 332 23
-71 61 205 66 239 3 14 11 49 18 76 8 28 18 79 22 115 4 36 8 74 9 85 2 11 6
-62 10 114 12 173 16 181 95 218 8 3 22 14 30 23 8 9 22 20 30 23 22 11 122 77
-130 88 4 5 31 24 153 109 12 8 30 25 40 37 10 13 23 23 28 23 12 0 77 47 100
-72 9 10 21 18 26 18 5 0 24 16 43 35 19 19 39 35 46 35 6 0 25 16 41 35 17 19
-35 35 41 35 5 0 24 16 41 35 17 19 33 35 37 35 29 0 553 526 649 652 11 14 54
-63 95 109 41 45 90 99 107 118 18 20 33 41 33 47 0 6 23 37 50 68 28 31 50 61
-50 65 0 4 23 34 50 65 28 31 50 61 50 66 0 5 11 21 24 37 13 15 32 42 42 59
-37 61 106 159 115 162 5 2 9 12 9 21 0 10 9 26 20 36 11 10 20 26 20 37 0 10
-4 18 9 18 5 0 16 16 25 35 9 19 22 40 29 47 7 7 18 24 25 38 7 14 20 39 31 55
-17 28 36 60 81 140 11 20 20 42 20 50 0 8 4 15 8 15 9 0 52 76 52 92 0 6 14
-30 30 55 17 24 30 49 30 54 0 6 25 63 56 127 65 137 94 199 104 227 7 19 15
-39 37 95 6 14 20 46 32 73 11 26 30 68 42 95 12 26 25 54 29 62 4 9 11 31 14
-50 7 34 11 47 34 100 6 14 16 43 23 65 7 22 17 44 21 49 4 6 8 20 8 32 0 13 5
-26 10 29 6 3 10 17 10 30 0 13 5 27 10 30 6 3 10 15 10 26 0 10 4 27 9 37 13
-25 41 121 41 143 0 10 5 21 10 24 6 3 10 19 10 35 0 16 5 32 10 35 6 3 10 19
-10 35 0 16 5 32 10 35 6 3 10 21 10 40 0 19 4 36 9 39 5 3 11 23 15 43 3 21 8
-49 11 63 3 14 8 44 11 68 3 23 10 45 15 48 5 3 9 22 9 43 0 20 4 41 9 47 10
-10 21 81 21 136 -1 20 4 39 10 43 5 3 10 28 10 56 0 27 4 49 9 49 5 0 12 51
-16 113 4 61 11 117 15 122 5 6 12 77 16 158 4 81 11 150 15 153 5 3 6 52 2
-109 -4 70 -2 109 5 118 8 9 7 85 -3 277 -20 377 -23 344 28 379 174 122 301
-228 456 381 187 185 304 330 420 520 26 41 52 84 59 95 22 36 107 209 139 285
-94 219 157 467 190 740 16 131 9 517 -12 640 -2 14 -6 42 -9 63 -21 140 -74
-345 -116 452 -4 11 -13 36 -20 55 -49 143 -246 530 -269 530 -4 0 -18 19 -31
-43 -23 40 -93 135 -162 219 -52 64 -237 248 -308 308 -36 30 -67 57 -70 60
--26 29 -325 235 -360 248 -8 3 -31 17 -50 30 -56 38 -328 169 -420 202 -175
-64 -392 119 -525 136 -22 2 -68 9 -102 15 -87 13 -412 19 -503 9 -150 -18
--166 -20 -220 -30 -30 -6 -68 -13 -85 -16 -16 -2 -38 -7 -47 -10 -9 -3 -25 -7
--35 -9 -10 -2 -36 -9 -58 -15 -22 -6 -47 -12 -55 -14 -23 -6 -142 -46 -165
--55 -11 -5 -56 -23 -100 -41 -44 -18 -99 -43 -122 -56 -23 -13 -47 -24 -53
--24 -6 0 -45 -20 -87 -45 -82 -48 -108 -50 -149 -14 -11 11 -28 19 -37 19 -9
-0 -17 4 -17 8 0 5 -19 19 -42 31 -24 13 -65 36 -93 51 -27 15 -67 37 -88 48
--21 12 -44 22 -52 22 -8 0 -15 5 -15 10 0 6 -8 10 -18 10 -10 0 -28 9 -40 20
--12 11 -25 20 -31 20 -5 0 -26 8 -48 19 -37 18 -87 41 -165 75 -20 9 -39 16
--42 16 -7 0 -86 34 -139 61 -22 10 -45 19 -53 19 -8 0 -14 5 -14 10 0 6 -7 10
--15 10 -8 0 -25 5 -38 12 -47 24 -57 28 -72 28 -8 0 -24 5 -35 10 -11 6 -29
-15 -40 20 -11 6 -27 10 -35 10 -8 0 -25 5 -38 12 -48 25 -58 28 -79 28 -13 0
--36 7 -52 15 -15 8 -39 15 -52 15 -12 0 -26 5 -29 10 -3 6 -19 10 -35 10 -16
-0 -32 5 -35 10 -3 6 -17 10 -30 10 -13 0 -27 5 -30 10 -3 6 -19 10 -35 10 -16
-0 -32 5 -35 10 -3 6 -19 10 -35 10 -16 0 -32 5 -36 11 -3 6 -17 8 -29 5 -13
--3 -27 -2 -30 4 -3 5 -24 10 -45 10 -21 0 -42 5 -45 10 -3 6 -24 10 -46 10
--21 0 -39 4 -39 9 0 10 -73 21 -132 21 -20 0 -39 4 -43 10 -3 5 -28 10 -55 10
--27 0 -52 5 -55 10 -3 6 -28 10 -55 10 -27 0 -51 4 -54 9 -3 5 -26 6 -51 3
--26 -2 -56 0 -68 6 -54 27 -720 45 -1027 28z m-4041 -615 c328 -39 628 -136
-921 -297 152 -84 209 -118 242 -148 9 -8 27 -20 40 -27 13 -6 37 -23 53 -37
-17 -13 50 -41 74 -61 42 -34 169 -150 215 -197 73 -74 195 -223 256 -314 8
--12 26 -39 40 -59 72 -101 164 -273 206 -384 15 -39 31 -76 35 -82 9 -13 80
--250 89 -300 5 -22 15 -74 23 -115 9 -41 18 -97 21 -125 4 -27 8 -66 11 -85 7
--51 8 -307 1 -365 -26 -208 -66 -389 -117 -535 -17 -47 -31 -89 -33 -95 -1 -5
--10 -25 -20 -43 -10 -19 -19 -41 -21 -50 -2 -10 -38 -80 -80 -157 -71 -130
--101 -180 -139 -230 -60 -78 -73 -95 -86 -115 -86 -126 -344 -365 -533 -494
--61 -42 -273 -166 -282 -166 -3 0 -33 -13 -67 -29 -289 -132 -575 -198 -903
--208 -161 -5 -358 4 -435 21 -8 1 -37 6 -65 11 -57 9 -78 18 -118 51 -15 13
--47 28 -70 34 -23 6 -63 21 -88 35 -26 14 -61 25 -78 25 -16 0 -50 6 -73 14
--24 8 -71 21 -106 30 -55 14 -67 14 -95 2 -70 -32 -106 -82 -127 -178 -7 -32
--19 -58 -25 -58 -16 0 -104 48 -130 70 -11 10 -38 27 -60 39 -46 25 -158 105
--226 161 -9 8 -35 28 -56 45 -41 33 -263 252 -303 300 -144 173 -235 315 -326
-505 -24 52 -50 104 -56 115 -6 11 -24 56 -40 100 -173 475 -219 945 -138 1415
-19 112 74 342 90 375 5 11 16 40 24 65 45 132 40 122 136 310 62 123 137 246
-199 325 17 22 39 50 49 62 110 142 326 348 441 421 14 9 28 19 31 23 10 13
-223 131 302 168 225 105 475 182 703 217 17 3 39 6 50 9 11 2 65 7 120 11 55
-3 101 8 103 9 8 6 341 -5 421 -14z m4891 -142 c63 -6 140 -12 170 -14 106 -9
-165 -16 180 -22 8 -4 58 -13 110 -19 147 -20 174 -25 195 -34 23 -10 88 -20
-127 -20 15 0 29 -4 33 -10 3 -5 21 -10 40 -10 19 0 37 -4 40 -10 3 -5 19 -10
-35 -10 16 0 32 -4 35 -10 3 -5 19 -10 35 -10 16 0 32 -4 35 -10 3 -5 19 -10
-35 -10 16 0 32 -5 35 -11 4 -6 13 -8 21 -5 8 3 22 2 32 -3 9 -5 37 -15 62 -22
-25 -7 49 -16 54 -21 6 -4 23 -8 38 -8 15 0 28 -4 28 -10 0 -5 11 -10 24 -10
-14 0 28 -4 31 -10 3 -5 15 -10 25 -10 11 0 35 -9 55 -20 20 -11 46 -20 60 -20
-13 0 27 -4 30 -10 3 -5 13 -10 21 -10 24 0 104 -39 104 -51 0 -6 -8 -23 -19
--37 -40 -58 -151 -253 -203 -357 -46 -92 -82 -176 -149 -340 -75 -188 -166
--610 -185 -865 -8 -107 -8 -421 0 -490 3 -25 8 -74 11 -110 10 -105 34 -257
-61 -380 25 -115 28 -130 65 -250 11 -36 22 -72 24 -80 6 -26 36 -104 51 -132
-8 -16 12 -28 9 -28 -3 0 4 -19 16 -42 51 -100 59 -116 59 -127 0 -16 225 -397
-250 -424 11 -11 20 -24 20 -28 0 -4 16 -27 35 -51 20 -23 50 -61 68 -82 119
--147 283 -310 422 -421 311 -249 639 -414 1007 -508 285 -73 369 -82 718 -81
-229 1 286 6 490 39 39 7 117 26 215 52 152 42 135 49 135 -55 0 -50 -4 -93 -9
--96 -5 -3 -6 -35 -4 -71 3 -37 1 -70 -4 -77 -6 -7 -14 -65 -18 -128 -4 -63
--10 -119 -15 -125 -4 -5 -10 -30 -13 -55 -9 -76 -35 -223 -47 -270 -6 -25 -14
--61 -17 -80 -3 -19 -9 -39 -13 -45 -5 -5 -11 -36 -15 -68 -4 -31 -11 -60 -16
--63 -5 -3 -9 -14 -9 -26 0 -21 -36 -140 -51 -170 -5 -10 -9 -27 -9 -37 0 -11
--4 -22 -9 -25 -4 -3 -11 -25 -15 -48 -4 -23 -10 -47 -15 -53 -4 -5 -13 -30
--20 -55 -12 -41 -39 -108 -62 -152 -5 -10 -9 -25 -9 -33 0 -8 -4 -23 -9 -33
--5 -9 -18 -38 -30 -65 -12 -26 -30 -68 -42 -95 -12 -26 -25 -55 -30 -65 -47
--89 -80 -156 -89 -177 -6 -14 -26 -52 -44 -85 -19 -33 -47 -85 -62 -115 -16
--30 -32 -57 -35 -60 -6 -4 -32 -48 -63 -105 -6 -11 -23 -36 -38 -56 -16 -20
--28 -39 -28 -44 0 -4 -13 -23 -30 -42 -16 -18 -30 -40 -30 -47 0 -7 -9 -21
--21 -32 -12 -10 -29 -35 -39 -54 -10 -19 -28 -44 -40 -55 -12 -11 -37 -42 -55
--70 -18 -27 -57 -77 -88 -111 -31 -33 -76 -87 -100 -120 -25 -32 -117 -131
--205 -219 -212 -213 -241 -240 -403 -377 -24 -20 -60 -50 -80 -67 -20 -17 -40
--31 -45 -31 -5 0 -17 -9 -29 -20 -33 -33 -82 -70 -92 -70 -5 0 -20 -11 -33
--25 -13 -14 -29 -25 -36 -25 -7 0 -14 -3 -16 -7 -5 -13 -76 -63 -87 -63 -6 0
--11 -4 -11 -8 0 -5 -16 -17 -35 -28 -19 -10 -35 -22 -35 -26 0 -5 -9 -8 -20
--8 -11 0 -20 -4 -20 -10 0 -5 -6 -10 -13 -10 -8 0 -22 -9 -33 -21 -10 -11 -38
--30 -62 -42 -74 -37 -82 -41 -82 -49 0 -5 -9 -8 -20 -8 -11 0 -20 -3 -20 -8 0
--8 -8 -13 -86 -51 l-48 -23 -30 38 c-237 299 -546 571 -867 764 -336 202 -782
-371 -1134 429 -38 7 -95 16 -125 21 -224 39 -629 29 -952 -23 -42 -6 -80 -15
--84 -20 -4 -4 -17 -7 -30 -7 -24 0 -62 -11 -229 -63 -169 -54 -237 -81 -400
--162 -273 -135 -492 -292 -710 -510 -76 -76 -210 -230 -248 -285 -157 -230
--247 -386 -306 -532 -22 -54 -24 -56 -48 -47 -13 5 -39 20 -57 34 -18 14 -37
-25 -42 25 -5 1 -25 14 -44 30 -19 17 -39 30 -45 30 -6 0 -24 13 -40 30 -16 17
--34 30 -40 30 -7 0 -32 17 -56 38 -24 22 -56 45 -71 53 -14 8 -54 38 -88 68
--34 30 -75 62 -91 70 -15 9 -45 32 -66 51 -21 19 -90 82 -153 139 -100 90
--205 195 -419 419 -28 29 -51 56 -51 61 0 4 -17 24 -37 43 -21 20 -56 59 -78
-88 -22 30 -52 66 -67 81 -16 16 -28 32 -28 37 0 5 -11 19 -25 32 -14 13 -25
-27 -25 32 0 5 -9 19 -20 31 -38 42 -70 85 -70 94 0 5 -11 20 -25 33 -14 13
--25 28 -25 33 0 5 -8 17 -18 26 -10 9 -22 23 -26 31 -12 27 -31 57 -46 75 -18
-22 -38 55 -46 78 -3 9 -10 17 -15 17 -5 0 -9 5 -9 11 0 7 -15 32 -33 58 -18
-25 -41 63 -50 84 -10 20 -22 37 -27 37 -6 0 -10 9 -10 20 0 11 -3 20 -7 20 -5
-0 -13 10 -19 23 -20 40 -75 141 -94 172 -10 17 -19 40 -19 53 -1 12 -4 22 -8
-22 -11 0 -43 58 -43 76 0 8 -4 14 -10 14 -5 0 -10 11 -10 24 0 14 -4 27 -9 31
--14 8 -41 65 -41 85 0 10 -7 23 -15 30 -8 7 -15 21 -15 31 0 10 -4 21 -10 24
--5 3 -10 15 -10 26 0 10 -4 19 -9 19 -5 0 -12 13 -16 30 -4 16 -11 32 -16 35
--5 4 -9 19 -9 36 0 16 -4 29 -10 29 -5 0 -10 8 -10 18 0 10 -7 27 -15 38 -8
-10 -15 29 -15 41 0 12 -4 25 -10 28 -5 3 -10 14 -10 23 0 9 -7 30 -15 46 -8
-15 -15 36 -15 46 0 10 -7 31 -15 46 -8 16 -15 39 -15 52 0 12 -4 22 -10 22 -5
-0 -10 15 -10 33 0 17 -7 41 -15 51 -8 11 -15 35 -15 53 0 18 -4 33 -10 33 -5
-0 -10 15 -10 33 0 18 -7 42 -15 53 -8 10 -15 37 -15 59 0 22 -7 49 -15 59 -8
-11 -15 39 -15 62 0 24 -4 45 -9 49 -5 3 -13 34 -16 70 -4 36 -11 65 -15 65 -4
-0 -10 34 -14 76 -3 43 -10 82 -15 88 -5 6 -12 54 -16 106 -4 52 -12 101 -18
-108 -8 10 -40 502 -33 509 1 1 100 3 221 4 121 1 252 5 290 9 39 4 99 11 135
-14 82 8 210 31 320 57 102 24 391 108 405 118 6 4 33 16 60 26 306 110 715
-363 1009 625 95 84 265 262 330 344 39 49 54 67 89 108 9 12 17 24 17 28 0 3
-9 15 19 27 11 11 28 38 40 61 11 22 24 42 29 44 11 4 222 393 222 408 0 6 8
-25 17 43 22 41 90 226 109 297 2 8 13 46 24 84 78 270 117 662 91 921 -26 263
--41 340 -107 570 -44 151 -82 247 -162 415 -39 81 -141 256 -177 305 -53 72
--95 135 -95 142 1 10 110 63 128 63 6 0 12 5 12 10 0 6 9 10 20 10 11 0 20 5
-20 10 0 6 6 10 13 10 6 0 34 11 61 25 27 14 57 25 66 25 10 0 23 7 30 15 7 8
-19 15 26 15 8 0 22 4 32 9 9 5 35 17 57 26 22 10 48 22 57 26 10 5 26 9 35 9
-10 0 27 7 37 15 11 8 30 15 42 15 13 0 26 5 29 10 3 6 17 10 31 10 14 0 32 7
-40 15 9 8 26 15 40 15 13 0 32 4 42 9 29 14 86 33 117 38 17 3 35 9 40 14 6 4
-30 11 53 15 23 4 45 11 48 15 3 5 22 9 43 9 20 0 46 7 57 15 10 8 39 15 64 15
-26 0 51 5 57 11 6 6 37 15 69 20 75 10 161 26 245 45 37 8 88 14 115 14 26 0
-70 7 98 15 122 36 794 50 1116 24z m3950 6 c144 -7 214 -16 375 -49 127 -26
-383 -105 470 -145 11 -6 68 -32 126 -59 194 -90 386 -211 538 -337 163 -135
-316 -290 416 -421 18 -23 37 -48 43 -55 53 -63 232 -354 232 -375 0 -5 10 -29
-22 -54 12 -25 27 -58 34 -75 27 -68 33 -82 53 -135 37 -98 89 -327 107 -468
-13 -104 15 -175 10 -297 -7 -164 -8 -179 -28 -300 -6 -38 -12 -77 -13 -85 -5
--45 -64 -265 -100 -375 -15 -45 -19 -55 -86 -215 -45 -107 -161 -305 -261
--446 -150 -212 -376 -433 -608 -596 -64 -44 -306 -188 -317 -188 -3 0 -43 -18
--89 -40 -46 -22 -90 -40 -97 -40 -7 0 -17 -4 -23 -9 -11 -11 -191 -72 -294
--100 -151 -40 -378 -71 -570 -78 -166 -5 -245 -1 -425 22 -81 11 -341 73 -390
-94 -11 5 -65 26 -120 46 -88 34 -137 56 -297 137 -43 21 -191 122 -258 177
--126 101 -274 249 -360 361 -19 24 -43 53 -52 64 -10 11 -18 23 -18 28 0 4 -8
-16 -19 27 -21 21 -181 288 -181 302 0 6 -9 26 -19 47 -10 20 -20 42 -21 47 -2
-6 -15 37 -30 70 -61 137 -128 392 -156 590 -19 143 -22 416 -4 565 48 422 205
-821 456 1155 129 172 152 195 223 227 36 16 71 38 78 49 8 10 39 35 69 54 30
-19 54 39 54 44 0 5 16 24 36 43 140 127 160 155 154 213 -6 69 -22 97 -102
-183 -17 18 -29 34 -27 36 21 15 111 66 118 66 5 0 51 21 103 48 51 26 113 54
-138 61 25 8 50 18 55 22 29 21 284 96 415 123 163 33 397 56 495 49 17 -1 82
--4 145 -8z m-4425 -8540 c312 -27 571 -99 850 -235 492 -239 870 -621 1112
--1125 54 -114 57 -125 63 -215 3 -52 11 -105 18 -117 6 -12 12 -41 12 -64 0
--23 8 -56 19 -73 10 -17 24 -53 30 -81 24 -103 52 -164 85 -184 39 -25 129
--38 159 -23 20 9 106 32 123 32 6 0 -1 -450 -9 -525 -4 -39 -17 -112 -38 -225
--87 -456 -316 -888 -660 -1245 -337 -351 -732 -592 -1174 -720 -49 -14 -105
--30 -122 -36 -112 -36 -494 -80 -618 -72 -316 20 -371 28 -594 89 -200 55
--432 166 -625 299 -32 22 -68 47 -80 55 -36 24 -125 98 -220 185 -153 137
--324 342 -434 517 -56 91 -166 300 -192 368 -11 30 -27 69 -35 87 -8 17 -15
-37 -15 45 0 7 -6 25 -14 39 -7 14 -19 50 -26 80 -7 30 -17 61 -21 69 -13 24
--49 214 -70 365 -13 97 -17 463 -6 560 28 249 39 303 118 552 73 230 198 483
-318 646 119 161 292 349 406 442 27 22 62 52 79 66 91 78 355 228 511 290 141
-56 314 103 510 139 124 23 377 30 540 15z"/>
-            </g>
-          </svg>
-        </div>
-        <div>
-          <div class="brand-title">Triflow</div>
-        </div>
-      </div>
-      <div class="header-cta">
-        <a href="#apply">
-          Apply for TriFlow
-          <span>↗</span>
-        </a>
-      </div>
-    </header>
-
-    <main>
-      <!-- HERO -->
-      <section class="hero">
-        <div class="hero-inner">
-          <div class="hero-kicker">A 12 week 1:1 journey for men</div>
-          <h1 class="hero-title">Find Your Ground</h1>
-          <p class="hero-subtitle">
-            TriFlow helps you see clearly, feel fully, and act decisively by bringing coherence
-            to your head, heart, and gut.
-          </p>
-          <p class="hero-tagline">
-            A 12 week, 1:1 journey for men who have carried the weight of the world alone for too long.
-          </p>
-          <div class="hero-badge-row">
-            <div class="hero-badge">Head · Heart · Gut Coherence</div>
-            <div class="hero-badge">1:1 Deep Work</div>
-            <div class="hero-badge">Men who have done the work</div>
-          </div>
-          <div class="hero-cta-row">
-            <a href="#apply" class="btn-primary">
-              Apply for TriFlow
-              <span>→</span>
-            </a>
-            <p class="hero-note">
-              No tiers. No upsells. Just the work that changes everything.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- CORE PROBLEM -->
-      <section class="box-variant-1">
-        <div class="eyebrow">The core problem</div>
-        <h2>You have built a successful life. Internally, things do not add up.</h2>
-        <div class="stack-lg">
-          <p>
-            You have tried meditation retreats, breathwork, medicine journeys, esoteric practices,
-            and spiritual intensives.
-          </p>
-          <p>Each one helped for a moment. None of them lasted.</p>
-          <p>
-            You keep functioning on the outside. Inside, there is confusion in the head, heaviness in the heart,
-            and a sense of being unmoored from your own power.
-          </p>
-          <p>
-            You can feel the drift. Your sleep is disturbed. Your dreams are darker. A quiet fear grows in the
-            background:
-          </p>
-          <p class="highlight">“If I do not get my inner world in order, I am going to waste my potential.”</p>
-          <p>You know there is more in you. You just need a way to access it without blowing up your life.</p>
-        </div>
-      </section>
-
-      <!-- WHY MEN GET STUCK -->
-      <section class="box-variant-3">
-        <div class="eyebrow">Why men get stuck</div>
-        <h2>You are not broken. You are fragmented.</h2>
-        <div class="stack-lg">
-          <p>
-            You have collected insights and practices from everywhere - Buddhism, Sufism, Hinduism,
-            Magick, medicine work - but none of them speak the same language.
-          </p>
-          <p>Your inner world is fragmented.</p>
-          <p>Men in our culture are given no coherent system for:</p>
-          <ul class="list">
-            <li>Making sense of their desires</li>
-            <li>Navigating intense internal states</li>
-            <li>Reconciling spirituality with strength</li>
-            <li>Integrating all the pieces of who they have become</li>
-          </ul>
-          <p>You do not need another high from a transformational retreat. You need a way to order your inner world.</p>
-          <p class="highlight">You need coherence.</p>
-        </div>
-      </section>
-
-      <!-- TRIFLOW SOLUTION -->
-      <section class="box-variant-2">
-        <div class="eyebrow">The Triflow solution</div>
-        <h2>A threefold way of seeing your entire life</h2>
-        <div class="grid-2">
-          <div class="stack-lg">
-            <p>
-              TriFlow reveals the three distinct yet inseparable flows that shape every man’s inner landscape:
-            </p>
-            <ul class="list">
-              <li><strong>Head</strong> - the structure of your thoughts and interpretations</li>
-              <li><strong>Heart</strong> - the flavor of your emotional life</li>
-              <li><strong>Gut</strong> - the intensity and direction of your desire and action</li>
-            </ul>
-            <p>
-              Men tend to overdevelop one of these and suppress the others. Coherence returns when all three come
-              online, in the right proportions, working together.
-            </p>
-          </div>
-          <div class="card box-variant-7">
-            <div class="tag">
-              <span class="tag-dot"></span>
-              When coherence returns
-            </div>
-            <p>When this happens:</p>
-            <ul class="list">
-              <li>Confusion becomes clarity</li>
-              <li>Heaviness becomes direction</li>
-              <li>Hesitation becomes decisiveness</li>
-              <li>Fragmentation becomes strength</li>
-            </ul>
-            <hr class="divider" />
-            <p class="muted">
-              This is not conceptual. It is embodied. It changes how you show up as a man.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- PROMISE -->
-      <section>
-        <div class="eyebrow">The promise</div>
-        <h2>TriFlow guarantees a profound reordering of your being.</h2>
-        <div class="grid-2">
-          <div class="stack-lg">
-            <p>By the end of 12 weeks, you will:</p>
-            <ul class="list">
-              <li>Make choices with significantly less doubt and regret</li>
-              <li>Become clear and steady in your thinking</li>
-              <li>Feel more coherent and grounded in your emotional life</li>
-              <li>Recover a clean, reliable drive in your gut</li>
-              <li>Bring depth and stability into your closest relationships</li>
-              <li>Know what you want and how to move toward it</li>
-              <li>Regain the strength you lost in the chaos of self improvement</li>
-            </ul>
-          </div>
-          <div class="card-soft box-variant-4">
-            <p>
-              This is not about becoming a different man. It is about reaching coherence in who you are.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- FIRST WEEK WINS -->
-      <section class="box-variant-5">
-        <div class="eyebrow">First week wins</div>
-        <h2>You feel the shift almost immediately.</h2>
-        <div class="stack-lg">
-          <p>Men who do this work feel the shift almost immediately:</p>
-          <ul class="list">
-            <li>Hope returns</li>
-            <li>The fog begins to lift</li>
-            <li>Energy rises without forcing it</li>
-            <li>Direction becomes intuitive</li>
-            <li>You stop fighting yourself</li>
-          </ul>
-          <p>Day by day, you feel more like someone who can trust himself again.</p>
-        </div>
-      </section>
-
-      <!-- JOURNEY -->
-      <section>
-        <div class="eyebrow">The TriFlow journey</div>
-        <h2>12 weeks. 12 deep sessions.</h2>
-        <div class="grid-2">
-          <div class="stack-lg">
-            <p>One hour each week devoted to cohering the head, heart, and gut.</p>
-            <p>You receive:</p>
-            <ul class="list">
-              <li>Weekly 1:1 TriFlow sessions</li>
-              <li>Asynchronous direct support</li>
-              <li>Guided TriFlow audio practices</li>
-              <li>Personalized study + practice plans</li>
-              <li>Resources curated for your specific stage of integration</li>
-              <li>TriFlow Breathwork Journey folder</li>
-              <li>
-                A Map + Compass + Position session to locate exactly where you are in the territory of your life
-              </li>
-            </ul>
-          </div>
-          <div class="card-soft box-variant-6">
-            <p>
-              This is not a program for “fixing” men. It is a process for restoring your wholeness.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- MAP / COMPASS / POSITION -->
-      <section>
-        <div class="eyebrow">Orientation</div>
-        <h2>The map, the compass, and your position</h2>
-        <div class="grid-2">
-          <div class="stack-lg">
-            <p>
-              Most men are not lost. They are unoriented by a life that has moved too fast for them to make sense of.
-            </p>
-            <p>TriFlow gives you three essentials:</p>
-            <ul class="list">
-              <li><strong>Position</strong> - your exact location in the territory of your inner world</li>
-              <li><strong>Map</strong> - a clear sense of the terrain and what lies ahead</li>
-              <li>
-                <strong>Compass</strong> - a direct felt sense of the direction that leads to strength, integrity,
-                and coherence
-              </li>
-            </ul>
-          </div>
-          <div class="card box-variant-7">
-            <p>Position gives you honesty. The map gives you perspective. The compass gives you direction.</p>
-            <p class="highlight" style="margin-top:8px;">Together, wandering ends.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- WHY I BUILT -->
-      <section class="box-variant-1">
-        <div class="eyebrow">Why I built Triflow</div>
-        <h2>I walked the long road so you do not have to walk it alone.</h2>
-        <div class="stack-lg">
-          <p>
-            My life took me through Christianity, materialism, years of hedonism as a touring DJ, a kundalini
-            awakening, five hospitalizations for psychosis, Buddhist practice, deep therapeutic work, esoteric study,
-            and an integrative unfolding method drawn from many mystical traditions.
-          </p>
-          <p>I found coherence on the other side.</p>
-          <p>
-            I built TriFlow so that men do not have to walk that long, disorienting road alone. I built TriFlow
-            to help you come home.
-          </p>
-        </div>
-      </section>
-
-      <!-- WHO IT IS FOR -->
-      <section class="box-variant-2">
-        <div class="eyebrow">Who TriFlow is for</div>
-        <h2>Men who know there is more in them than they are living right now.</h2>
-        <div class="stack-lg">
-          <p>TriFlow is for men who:</p>
-          <ul class="list">
-            <li>Have achieved material success but feel spiritually or emotionally unanchored</li>
-            <li>Have tried dozens of practices but lack an integrated inner life</li>
-            <li>Are carrying responsibilities that demand clarity and strength</li>
-            <li>Want to serve, lead, and love well - but feel internally divided</li>
-            <li>Are ready to confront their inner world without collapsing into shame or bypassing</li>
-          </ul>
-          <p>
-            If you are a man who knows he has more capacity than he is living with right now, TriFlow is for you.
-          </p>
-        </div>
-      </section>
-
-      <!-- WHO IT IS NOT FOR -->
-      <section class="box-variant-3">
-        <div class="eyebrow">Who TriFlow is not for</div>
-        <h2>This is not an escape. It is a path of coherence and integrity.</h2>
-        <div class="stack-lg">
-          <p>TriFlow is not for men who:</p>
-          <ul class="list">
-            <li>Want shortcuts or escapes</li>
-            <li>Avoid personal responsibility</li>
-            <li>Prefer consuming experiences over integrating them</li>
-            <li>Are unwilling to sit with uncomfortable truths</li>
-          </ul>
-          <p>TriFlow is a path of coherence and integrity.</p>
-        </div>
-      </section>
-
-      <!-- PRICING + GUARANTEE -->
-      <section id="pricing">
-        <div class="eyebrow">Investment</div>
-        <h2>TriFlow 12 week journey</h2>
-        <div class="grid-2">
-          <div class="stack-lg">
-            <p class="price">$3,996</p>
-            <p>No tiers. No upsells. Just the work that changes everything.</p>
-            <div class="stat-row">
-              <span class="stat-pill">12 x 1:1 deep sessions</span>
-              <span class="stat-pill">Asynchronous support</span>
-              <span class="stat-pill">Guided practices + integration</span>
-            </div>
-          </div>
-          <div class="guarantee-box box-variant-6">
-            <div class="guarantee-label">Guarantee</div>
-            <p>
-              If you complete all 12 weeks and do not feel more clear in your head, more coherent in your heart,
-              and more connected in your gut, you may request a full refund.
-            </p>
-            <p style="margin-top:8px;">
-              This guarantee is rooted in sincerity, not persuasion. You can walk away with your money back.
-              You will not walk away the same man.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- THE CHOICE / APPLY -->
-      <section id="apply">
-        <div class="choice-box box-variant-4">
-          <div class="eyebrow">The choice</div>
-          <h2>Read this before scheduling.</h2>
-          <div class="stack">
-            <p>Before choosing anything, pause.</p>
-            <p>
-              Feel into your gut. Notice the desire rising there - the instinctive pull toward alignment and strength.
-            </p>
-            <p>
-              Feel into your heart. Sense the turbulence, the longing to become the man you know you can be.
-            </p>
-            <p>
-              Feel into your head. Watch the beliefs emerge - beliefs formed to keep you from being hurt again.
-              Honor them. They have protected you. They belong.
-            </p>
-            <p>
-              But remember this: choices made from fear or skepticism do not shape a meaningful life. Choices made
-              from love and truth do.
-            </p>
-            <p>
-              Love expands your choices. Fear constricts them. Choose from the place in you that wants more life,
-              more coherence, more possibility - for yourself, for others, and for the world.
-            </p>
-            <p class="highlight">
-              When you are ready, choose from love.
-            </p>
-          </div>
-
-          <div class="footer-cta" style="flex-direction:column;align-items:stretch;">
-            <!-- Calendly inline widget begin -->
-            <div
-              class="calendly-inline-widget"
-              data-url="https://calendly.com/jaredclucas/disc?hide_event_type_details=1&hide_gdpr_banner=1&background_color=000000&text_color=ffffff&primary_color=32c18f"
-              style="min-width:320px;height:700px;">
-            </div>
-            <!-- Calendly inline widget end -->
-
-            <p class="choice-note">
-              Your call is a real conversation about where you are, what you are carrying, and whether TriFlow is the
-              right fit. There is no obligation to continue if it is not aligned.
-            </p>
-          </div>
-        </div>
-        <div class="footnote">
-          TriFlow is a 1:1 journey for men who are ready to bring their inner world into coherence and live from
-          grounded strength.
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- Calendly widget script -->
-  <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">TRIFLOW</span></p>
+<p class="p3"><span class="s1">Apply for TriFlow</span></p>
+<p class="p4"><span class="s1">↗</span></p>
+<p class="p5"><span class="s1">A 12 WEEK 1:1 JOURNEY FOR MEN</span></p>
+<h1 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 32.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>Find Your Ground</b></span></h1>
+<p class="p7"><span class="s1">TriFlow helps you see clearly, feel fully, and act decisively by bringing coherence to your head, gut and heart.</span></p>
+<p class="p8"><span class="s1">A 12 week, 1:1 journey for men who have carried the weight of the world alone for too long.</span></p>
+<p class="p9"><span class="s1">HEAD · HEART · GUT COHERENCE</span></p>
+<p class="p9"><span class="s1">1:1 DEEP WORK</span></p>
+<p class="p9"><span class="s1">MEN WHO HAVE DONE THE WORK</span></p>
+<p class="p10"><span class="s2"><b>Apply for TriFlow</b><b></b></span></p>
+<p class="p11"><span class="s2"><b>→</b><b></b></span></p>
+<p class="p12"><span class="s1">No tiers. No upsells. Just the work that changes everything.</span></p>
+<p class="p13"><span class="s1">THE CORE PROBLEM</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>You have built a successful life. Internally, things do not add up.</b></span></h2>
+<p class="p15"><span class="s1">You have tried meditation retreats, breathwork, medicine journeys, esoteric practices, and spiritual intensives.</span></p>
+<p class="p15"><span class="s1">Each one helped for a moment. None of them lasted.</span></p>
+<p class="p15"><span class="s1">You keep functioning on the outside. Inside, there is confusion in the head, uneasiness in the gut, and blockage in the heart.</span></p>
+<p class="p15"><span class="s1">You can feel the drift. Your sleep is disturbed. Your dreams are darker. A quiet fear grows in the background:</span></p>
+<p class="p16"><span class="s1">“If I do not get my inner world in order, I am going to waste my potential.”</span></p>
+<p class="p15"><span class="s1">You know there is more in you. You just need a way to access it without blowing up your life.</span></p>
+<p class="p13"><span class="s3">WHY MEN GET STUCK</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s3"><b>You are not broken. You are disordered.</b><b></b></span></h2>
+<p class="p15"><span class="s3">You have collected insights and practices from everywhere - Buddhism, Sufism, Hinduism, Magick, medicine work - but none of them speak the same language.</span></p>
+<p class="p15"><span class="s3">Your inner world is disjointed.</span></p>
+<p class="p15"><span class="s3">Men in our culture are given no coherent system for:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s4"></span><span class="s3">Making sense of their desires</span></li>
+  <li class="li17"><span class="s4"></span><span class="s3">Navigating intense internal states</span></li>
+  <li class="li17"><span class="s4"></span><span class="s3">Integrating all the pieces of who they have become</span></li>
+</ul>
+<p class="p15"><span class="s3">You do not need another high from a transformational retreat. You need a way to order your inner world.</span></p>
+<p class="p16"><span class="s3">You need coherence.</span></p>
+<p class="p13"><span class="s1">THE TRIFLOW SOLUTION</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>A threefold way of seeing your entire life</b></span></h2>
+<p class="p15"><span class="s1">TriFlow reveals the three distinct yet inseparable flows that shape every man’s inner landscape:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s5"><b></b></span><span class="s1"><b>Head</b> - the place that takes things in from the outside</span></li>
+  <li class="li17"><span class="s5"><b></b></span><span class="s1"><b>Gut</b> - the place things are processed and “digested”, generating usable energy</span></li>
+  <li class="li17"><span class="s5"><b></b></span><span class="s1"><b>Heart</b> - the place that revitalizes and invigorates, leading to expression.</span></li>
+  <li class="li18"><b></b><b></b></li>
+</ul>
+<p class="p15"><span class="s1">This is most easily illustrated in the process of eating food, however it also applies to processing perceptions. Coherence returns when all three come online, in the right proportions, working together.</span></p>
+<p class="p19"><span class="s1"></span><br></p>
+<p class="p20"><span class="s1">WHEN COHERENCE RETURNS</span></p>
+<p class="p15"><span class="s1">When this happens:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s5"></span><span class="s1">Confusion becomes clarity</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Uneasiness becomes sturdiness</span></li>
+  <li class="li18">Blockage becomes flow</li>
+</ul>
+<p class="p21"><span class="s1"></span><br></p>
+<p class="p13"><span class="s1">This is not conceptual. It is embodied. It changes how you show up as a man.</span></p>
+<p class="p13"><span class="s1">THE PROMISE</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>TriFlow guarantees a profound reordering of your being.</b></span></h2>
+<p class="p15"><span class="s1">By the end of 12 weeks, you will:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s5"></span><span class="s1">Become clear and steady in your thinking</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Have more nuance and groundedness in your feeling</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Recover an energized, compassionate flow in your actions</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Make choices with significantly less doubt and regret</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Bring depth and stability into your closest relationships</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Know what you want and how to move toward it</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Regain the strength you lost in the chaos of self improvement</span></li>
+</ul>
+<p class="p15"><span class="s6">This is not about becoming a different man. It is about reaching coherence in who you are.</span></p>
+<p class="p13"><span class="s1">FIRST WEEK WINS</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>You feel the shift almost immediately.</b></span></h2>
+<p class="p15"><span class="s1">Men who do this work feel the shift almost immediately:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s5"></span><span class="s1">Hope returns</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">The fog begins to lift</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Energy rises without forcing it</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Direction becomes intuitive</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">You stop fighting yourself</span></li>
+</ul>
+<p class="p15"><span class="s1">Day by day, you feel more like someone who can trust himself again.</span></p>
+<p class="p13"><span class="s1">THE TRIFLOW JOURNEY</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>12 weeks. 12 deep sessions.</b></span></h2>
+<p class="p15"><span class="s1">One hour each week devoted to cohering the head, gut, and heart.</span></p>
+<p class="p15"><span class="s1">You receive:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s5"></span><span class="s1">Weekly 1:1 TriFlow sessions</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Asynchronous direct support</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Guided TriFlow audio practices</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Personalized study + practice plans</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Resources curated for your specific stage of integration</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">TriFlow Breathwork Journey folder</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">A Map + Compass + Position session to locate exactly where you are in the territory of your life</span></li>
+</ul>
+<p class="p15"><span class="s7">This is not a program for “fixing” men. It is a process for restoring your wholeness.</span></p>
+<p class="p13"><span class="s1">ORIENTATION</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>The map, the compass, and your position</b></span></h2>
+<p class="p15"><span class="s1">Most men are not lost. They are disoriented by a life that has moved too fast for them to make sense of.</span></p>
+<p class="p15"><span class="s1">TriFlow gives you three essentials:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s5"><b></b></span><span class="s1"><b>Position</b> - your exact location in the territory of your life</span></li>
+  <li class="li17"><span class="s5"><b></b></span><span class="s1"><b>Map</b> - a clear sense of the terrain and what lies ahead</span></li>
+  <li class="li17"><span class="s5"><b></b></span><span class="s1"><b>Compass</b> - a direct felt sense of the direction that leads to strength, integrity, and coherence</span></li>
+</ul>
+<p class="p15"><span class="s1">Position gives you honesty. The map gives you perspective. The compass gives you direction.</span></p>
+<p class="p16"><span class="s1">Together, wandering ends.</span></p>
+<p class="p13"><span class="s1">WHY I BUILT TRIFLOW</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>I walked the long road so you do not have to walk it alone.</b></span></h2>
+<p class="p15"><span class="s1">My life took me through Christianity, materialism, years of hedonism as a touring DJ, a kundalini awakening, five hospitalizations for psychosis, Buddhist practice, deep therapeutic work, esoteric study, and an integrative unfolding method drawn from many mystical traditions.</span></p>
+<p class="p15"><span class="s1">I found coherence on the other side.</span></p>
+<p class="p15"><span class="s1">I built TriFlow so that men do not have to walk that long, disorienting road alone. I built TriFlow to help you come home.</span></p>
+<p class="p13"><span class="s1">WHO TRIFLOW IS FOR</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>Men who know there is more in them than they are living right now.</b></span></h2>
+<p class="p15"><span class="s1">TriFlow is for men who:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s5"></span><span class="s1">Have achieved material success but feel spiritually or emotionally unanchored</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Have tried dozens of practices but lack an integrated inner life</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Are carrying responsibilities that demand clarity and strength</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Want to serve, lead, and love well - but feel internally divided</span></li>
+  <li class="li17"><span class="s5"></span><span class="s1">Are ready to confront their inner world without collapsing into shame or bypassing</span></li>
+</ul>
+<p class="p15"><span class="s1">If you are a man who knows he has more capacity than he is living with right now, TriFlow is for you.</span></p>
+<p class="p13"><span class="s3">WHO TRIFLOW IS NOT FOR</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s3"><b>This is not an escape. It is a path of coherence and integrity.</b><b></b></span></h2>
+<p class="p15"><span class="s3">TriFlow is not for men who:</span></p>
+<ul class="ul1">
+  <li class="li17"><span class="s4"></span><span class="s3">Want shortcuts or escapes</span></li>
+  <li class="li17"><span class="s4"></span><span class="s3">Avoid personal responsibility</span></li>
+  <li class="li17"><span class="s4"></span><span class="s3">Prefer consuming experiences over integrating them</span></li>
+  <li class="li17"><span class="s4"></span><span class="s3">Are unwilling to sit with uncomfortable truths</span></li>
+</ul>
+<p class="p15"><span class="s3">TriFlow is a path of coherence and integrity.</span></p>
+<p class="p13"><span class="s1">INVESTMENT</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s1"><b>TriFlow 12 week journey</b></span></h2>
+<p class="p22"><span class="s1"><b>$3,996</b></span></p>
+<p class="p15"><span class="s1">No tiers. No upsells. Just the work that changes everything.</span></p>
+<p class="p23"><span class="s1">12 x 1:1 deep sessions</span></p>
+<p class="p23"><span class="s1">Asynchronous support</span></p>
+<p class="p23"><span class="s1">Guided practices + integration</span></p>
+<p class="p24"><span class="s7">GUARANTEE</span></p>
+<p class="p15"><span class="s7">If you complete all 12 weeks and do not feel more clear in your head, more grounded in your gut, and more flowing in your heart, you may request a full refund.</span></p>
+<p class="p15"><span class="s7">This guarantee is rooted in sincerity, not persuasion. You can walk away with your money back. You will not walk away the same man.</span></p>
+<p class="p13"><span class="s6">THE CHOICE</span></p>
+<h2 style="margin: 0.0px 0.0px 4.0px 0.0px; font: 20.0px 'Helvetica Neue'; color: #f2f5fa; -webkit-text-stroke: #f2f5fa"><span class="s6"><b>Read this before scheduling.</b><b></b></span></h2>
+<p class="p15"><span class="s6">Before choosing anything, pause.</span></p>
+<p class="p26"><span class="s1">Chew on the perceptions you have received from your eyes as you read this page.<span class="Apple-converted-space"> </span></span></p>
+<p class="p15"><span class="s6">Notice the sensations that arise in your gut as you swallow this through the structures of your mind and the beliefs that have formed there.</span></p>
+<p class="p26"><span class="s1">Let this digest, and notice what you keep and what you reject.</span></p>
+<p class="p26"><span class="s1">Appreciate your gut for rejecting things that you can’t digest, and the role that it’s playing in your life.</span></p>
+<p class="p26"><span class="s1">Notice if there is any change of feeling in the heart.<span class="Apple-converted-space">  </span>Is it painful?<span class="Apple-converted-space">  </span>Contracted?<span class="Apple-converted-space">  </span>This means something is beginning to flow here, giving you vitality and life.</span></p>
+<p class="p26"><span class="s1">How does your head respond?<span class="Apple-converted-space">  </span>Is there fear?<span class="Apple-converted-space">  </span>A belief that this pain needs to be stopped?<span class="Apple-converted-space">  </span>Welcome that fear and honor its good intentions for you, as it also has served you so deeply in desperate times.</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p26"><span class="s1">Take some time to really sit with this, and allow this new way of seeing to reveal more and more about your life.</span></p>
+<p class="p15"><span class="s6">Also take some time to reflect on when you have made choices based on constructs of fear, verses based on an embodied sense of care.<span class="Apple-converted-space">  </span>Which ones led to more life, vitality and aliveness?</span></p>
+<p class="p16"><span class="s6">When you are ready, and you are choosing from a place of clarity in thought and feeling, schedule a time below.</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p12"><span class="s6">Your call is a real conversation about where you are, what you are carrying, and whether TriFlow is the right fit. There is no obligation to continue if it is not aligned.</span></p>
+<p class="p27"><span class="s1">TriFlow is a 1:1 journey for men who are ready to bring their inner world into coherence and live from grounded strength.</span></p>
 </body>
 </html>
