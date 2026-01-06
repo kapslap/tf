@@ -75,7 +75,7 @@
     text.node-label {
       pointer-events: none;
       fill: #222;
-      font-size: 4px;       /* smaller text */
+      font-size: 4px;
       font-weight: 600;
       text-transform: lowercase;
     }
@@ -100,12 +100,6 @@
       box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
     }
 
-    .btn-small {
-      padding: 0.25rem 0.7rem;
-      font-size: 0.75rem;
-    }
-
-    /* Practice/Theory button centered over SVG */
     #modeToggle {
       position: absolute;
       top: 50%;
@@ -129,7 +123,6 @@
       line-height: 1.3;
     }
 
-    /* Custom input overlay (replaces window.prompt) */
     .input-overlay {
       position: absolute;
       inset: 0;
@@ -185,6 +178,11 @@
       justify-content: flex-end;
       gap: 0.4rem;
     }
+
+    .btn-small {
+      padding: 0.25rem 0.7rem;
+      font-size: 0.75rem;
+    }
   </style>
 </head>
 <body>
@@ -234,7 +232,6 @@
       <button id="clearBtn" class="btn">Clear</button>
     </div>
 
-    <!-- Custom input overlay -->
     <div id="inputOverlay" class="input-overlay hidden">
       <div class="input-dialog">
         <div class="input-title">Enter a single word</div>
@@ -279,7 +276,7 @@
     }
 
     modeToggle.addEventListener("click", () => {
-      rotation += 180;          // always clockwise
+      rotation += 180;
       updateRotation();
       updateModeLabel();
     });
@@ -297,41 +294,36 @@
       clearActiveHighlight();
       if (nodeElement) nodeElement.classList.add("active");
 
-      inputField.value = currentLabelEl ? currentLabelEl.textContent : "";
       inputOverlay.classList.remove("hidden");
 
-      // Small timeout to ensure focus works on mobile
+      inputField.value = currentLabelEl ? currentLabelEl.textContent : "";
+      inputField.setSelectionRange(inputField.value.length, inputField.value.length);
+
+      inputField.focus({ preventScroll: true });
+
       setTimeout(() => {
-        inputField.focus();
+        inputField.focus({ preventScroll: true });
         inputField.select();
-      }, 20);
+      }, 80);
     }
 
     function closeInput() {
       inputOverlay.classList.add("hidden");
-      if (currentNodeElement) {
-        currentNodeElement.classList.remove("active");
-      }
+      if (currentNodeElement) currentNodeElement.classList.remove("active");
       currentLabelEl = null;
       currentNodeElement = null;
     }
 
-    inputCancel.addEventListener("click", () => {
-      closeInput();
-    });
+    inputCancel.addEventListener("click", closeInput);
 
     inputSave.addEventListener("click", () => {
-      if (!currentLabelEl) {
-        closeInput();
-        return;
-      }
+      if (!currentLabelEl) return closeInput();
       const raw = inputField.value || "";
       const word = raw.trim().split(/\s+/)[0] || "";
       currentLabelEl.textContent = word.toLowerCase();
       closeInput();
     });
 
-    // Enter = Save, Escape = Cancel
     inputField.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -342,7 +334,6 @@
       }
     });
 
-    // Attach handlers to circles (better for mobile)
     const circles = document.querySelectorAll(".node-circle");
     circles.forEach(circle => {
       const nodeElement = circle.parentNode;
@@ -350,9 +341,7 @@
       const labelEl = document.getElementById("label-" + nodeId);
 
       const handler = (event) => {
-        if (event.type === "touchend") {
-          event.preventDefault();
-        }
+        if (event.type === "touchend") event.preventDefault();
         openInput(labelEl, nodeElement);
       };
 
