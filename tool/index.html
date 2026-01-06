@@ -36,7 +36,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0.75rem;   /* space between SVG and bottom controls */
+      margin-bottom: 0.75rem;
     }
 
     svg {
@@ -75,11 +75,9 @@
     text.node-label {
       pointer-events: none;
       fill: #222;
-      font-size: 4px;
+      font-size: 4px;       /* smaller text */
       font-weight: 600;
       text-transform: lowercase;
-      transform-box: fill-box;
-      transform-origin: center;
     }
 
     .btn {
@@ -100,6 +98,11 @@
     .btn:active {
       transform: scale(0.96);
       box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-small {
+      padding: 0.25rem 0.7rem;
+      font-size: 0.75rem;
     }
 
     /* Practice/Theory button centered over SVG */
@@ -124,6 +127,63 @@
       color: #c2c2c2;
       max-width: 65%;
       line-height: 1.3;
+    }
+
+    /* Custom input overlay (replaces window.prompt) */
+    .input-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.85), rgba(0,0,0,0.95));
+      z-index: 10;
+    }
+
+    .input-overlay.hidden {
+      display: none;
+    }
+
+    .input-dialog {
+      width: 75%;
+      max-width: 260px;
+      background: rgba(20, 20, 20, 0.95);
+      border-radius: 16px;
+      padding: 0.8rem 1rem 0.7rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .input-title {
+      font-size: 0.8rem;
+      margin-bottom: 0.2rem;
+      color: #f5f5f5;
+    }
+
+    #inputField {
+      width: 100%;
+      padding: 0.35rem 0.5rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.6);
+      color: #f5f5f5;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    #inputField:focus {
+      border-color: rgba(255,255,255,0.5);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.3);
+    }
+
+    .input-actions {
+      margin-top: 0.4rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.4rem;
     }
   </style>
 </head>
@@ -173,6 +233,18 @@
       </div>
       <button id="clearBtn" class="btn">Clear</button>
     </div>
+
+    <!-- Custom input overlay -->
+    <div id="inputOverlay" class="input-overlay hidden">
+      <div class="input-dialog">
+        <div class="input-title">Enter a single word</div>
+        <input id="inputField" type="text" autocomplete="off" autocapitalize="none" />
+        <div class="input-actions">
+          <button id="inputCancel" class="btn btn-small">Cancel</button>
+          <button id="inputSave" class="btn btn-small">Save</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -181,12 +253,23 @@
     const clearBtn = document.getElementById("clearBtn");
     const labels = document.querySelectorAll(".node-label");
 
+    const inputOverlay = document.getElementById("inputOverlay");
+    const inputField = document.getElementById("inputField");
+    const inputCancel = document.getElementById("inputCancel");
+    const inputSave = document.getElementById("inputSave");
+
     let rotation = 0;
+    let currentLabelEl = null;
+    let currentNodeElement = null;
 
     function updateRotation() {
       svg.style.transform = `rotate(${rotation}deg)`;
       labels.forEach(label => {
-        label.style.transform = `rotate(${-rotation}deg)`;
+        const x = parseFloat(label.getAttribute("x"));
+        const y = parseFloat(label.getAttribute("y"));
+        if (!isNaN(x) && !isNaN(y)) {
+          label.setAttribute("transform", `rotate(${-rotation} ${x} ${y})`);
+        }
       });
     }
 
@@ -196,41 +279,81 @@
     }
 
     modeToggle.addEventListener("click", () => {
-      rotation += 180;
+      rotation += 180;          // always clockwise
       updateRotation();
       updateModeLabel();
     });
 
-    function manualWordEntry(nodeId, nodeElement) {
+    function clearActiveHighlight() {
       document
         .querySelectorAll(".node.active")
         .forEach(n => n.classList.remove("active"));
-
-      nodeElement.classList.add("active");
-
-      const labelEl = document.getElementById("label-" + nodeId);
-      const current = labelEl ? labelEl.textContent : "";
-
-      const input = window.prompt("Enter a single word:", current);
-      nodeElement.classList.remove("active");
-      if (!input) return;
-
-      const word = input.trim().split(/\s+/)[0];
-      if (labelEl) labelEl.textContent = word.toLowerCase();
     }
 
-    // Attach handlers directly to the circles (better for mobile)
+    function openInput(labelEl, nodeElement) {
+      currentLabelEl = labelEl;
+      currentNodeElement = nodeElement;
+
+      clearActiveHighlight();
+      if (nodeElement) nodeElement.classList.add("active");
+
+      inputField.value = currentLabelEl ? currentLabelEl.textContent : "";
+      inputOverlay.classList.remove("hidden");
+
+      // Small timeout to ensure focus works on mobile
+      setTimeout(() => {
+        inputField.focus();
+        inputField.select();
+      }, 20);
+    }
+
+    function closeInput() {
+      inputOverlay.classList.add("hidden");
+      if (currentNodeElement) {
+        currentNodeElement.classList.remove("active");
+      }
+      currentLabelEl = null;
+      currentNodeElement = null;
+    }
+
+    inputCancel.addEventListener("click", () => {
+      closeInput();
+    });
+
+    inputSave.addEventListener("click", () => {
+      if (!currentLabelEl) {
+        closeInput();
+        return;
+      }
+      const raw = inputField.value || "";
+      const word = raw.trim().split(/\s+/)[0] || "";
+      currentLabelEl.textContent = word.toLowerCase();
+      closeInput();
+    });
+
+    // Enter = Save, Escape = Cancel
+    inputField.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        inputSave.click();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        inputCancel.click();
+      }
+    });
+
+    // Attach handlers to circles (better for mobile)
     const circles = document.querySelectorAll(".node-circle");
     circles.forEach(circle => {
       const nodeElement = circle.parentNode;
       const nodeId = nodeElement.getAttribute("data-node-id");
+      const labelEl = document.getElementById("label-" + nodeId);
 
       const handler = (event) => {
-        // Prevent duplicate click after touch on some mobile browsers
         if (event.type === "touchend") {
           event.preventDefault();
         }
-        manualWordEntry(nodeId, nodeElement);
+        openInput(labelEl, nodeElement);
       };
 
       circle.addEventListener("click", handler);
