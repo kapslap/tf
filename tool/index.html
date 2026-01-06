@@ -64,22 +64,14 @@
     text.node-label {
       pointer-events: none;
       fill: #222;
-      font-size: 4px;           /* smaller text in circles */
+      font-size: 4px;
       font-weight: 600;
       text-transform: lowercase;
-      transform-box: fill-box;   /* allow per-text rotation around its own box */
+      transform-box: fill-box;
       transform-origin: center;
     }
 
-    .controls {
-      position: absolute;
-      right: 1.2rem;
-      bottom: 1.2rem;
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
+    /* Button styles */
     .btn {
       padding: 0.4rem 0.8rem;
       font-size: 0.85rem;
@@ -101,6 +93,22 @@
       box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
     }
 
+    /* Clear button bottom-right */
+    .controls {
+      position: absolute;
+      right: 1.2rem;
+      bottom: 1.2rem;
+    }
+
+    /* Practice/Theory button centered over SVG */
+    #modeToggle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+    }
+
     .status {
       position: absolute;
       left: 1.2rem;
@@ -110,15 +118,11 @@
       line-height: 1.3;
       color: #c2c2c2;
     }
-
-    .status strong { color: #fff; }
   </style>
 </head>
 <body>
   <div class="app">
-    <!-- Tri-circle graphic -->
     <svg id="triSvg" viewBox="0 0 100 100">
-      <!-- Connector -->
       <path
         class="connector"
         d="M25 25
@@ -127,7 +131,6 @@
            Q5 55 25 25Z"
       />
 
-      <!-- Green -->
       <g class="node" data-node-id="1">
         <circle class="node-circle node-green" cx="25" cy="25" r="14" />
         <text id="label-1" class="node-label"
@@ -136,7 +139,6 @@
               dominant-baseline="middle"></text>
       </g>
 
-      <!-- Blue -->
       <g class="node" data-node-id="2">
         <circle class="node-circle node-blue" cx="75" cy="25" r="14" />
         <text id="label-2" class="node-label"
@@ -145,7 +147,6 @@
               dominant-baseline="middle"></text>
       </g>
 
-      <!-- Red -->
       <g class="node" data-node-id="3">
         <circle class="node-circle node-red" cx="50" cy="80" r="14" />
         <text id="label-3" class="node-label"
@@ -155,58 +156,50 @@
       </g>
     </svg>
 
-    <!-- Controls: Practice/Theory + Clear -->
+    <!-- Center practice/theory button -->
+    <button id="modeToggle" class="btn">Practice</button>
+
+    <!-- Clear button -->
     <div class="controls">
       <button id="clearBtn" class="btn">Clear</button>
-      <button id="modeToggle" class="btn">Practice</button>
     </div>
 
     <div id="status" class="status">
-      Tap a circle to enter a word. Tap <strong>Practice/Theory</strong> to rotate the diagram; text stays upright. Use <strong>Clear</strong> to empty all circles.
+      Tap a circle to enter a word. Use Practice/Theory to rotate. Clear empties all circles.
     </div>
   </div>
 
   <script>
-    console.log("Script loaded");
-
     const svg = document.getElementById("triSvg");
     const modeToggle = document.getElementById("modeToggle");
     const clearBtn = document.getElementById("clearBtn");
-    const statusEl = document.getElementById("status");
     const labels = document.querySelectorAll(".node-label");
 
-    let rotation = 0; // cumulative rotation in degrees; always increases (clockwise)
+    let rotation = 0;
 
     function updateRotation() {
-      // Rotate the whole SVG
       svg.style.transform = `rotate(${rotation}deg)`;
-      // Rotate labels back around their own centers to keep them upright
       labels.forEach(label => {
         label.style.transform = `rotate(${-rotation}deg)`;
       });
     }
 
     function updateModeLabel() {
-      // Alternate label based on whether we are at even or odd multiple of 180
       const isPractice = (rotation / 180) % 2 === 0;
       modeToggle.textContent = isPractice ? "Practice" : "Theory";
     }
 
-    // Practice/Theory button: rotate clockwise by 180° each click
     modeToggle.addEventListener("click", () => {
-      rotation += 180;          // always clockwise
+      rotation += 180;
       updateRotation();
       updateModeLabel();
     });
 
-    function clearActiveHighlight() {
+    function manualWordEntry(nodeId, nodeElement) {
       document
         .querySelectorAll(".node.active")
-        .forEach((node) => node.classList.remove("active"));
-    }
+        .forEach(n => n.classList.remove("active"));
 
-    function manualWordEntry(nodeId, nodeElement) {
-      clearActiveHighlight();
       nodeElement.classList.add("active");
 
       const labelEl = document.getElementById("label-" + nodeId);
@@ -220,23 +213,17 @@
       if (labelEl) labelEl.textContent = word.toLowerCase();
     }
 
-    // Circle click handling
-    const nodes = document.querySelectorAll(".node");
-    nodes.forEach((node) => {
+    document.querySelectorAll(".node").forEach(node => {
       node.addEventListener("click", () => {
         const nodeId = node.getAttribute("data-node-id");
         manualWordEntry(nodeId, node);
       });
     });
 
-    // Clear button: empty all labels
     clearBtn.addEventListener("click", () => {
-      labels.forEach(label => {
-        label.textContent = "";
-      });
+      labels.forEach(label => (label.textContent = ""));
     });
 
-    // Initial rotation state
     updateRotation();
     updateModeLabel();
   </script>
