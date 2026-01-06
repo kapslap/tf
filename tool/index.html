@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Tri-Circle Voice Tool</title>
+  <title>Tri-Circle Tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * {
@@ -103,39 +103,6 @@
     }
 
     .status strong { color: #fff; }
-
-    .mic-setup {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(
-        to bottom right,
-        rgba(0,0,0,0.9),
-        rgba(0,0,0,0.7)
-      );
-    }
-
-    .mic-setup button {
-      padding: 0.6rem 1.2rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.6);
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      cursor: pointer;
-      backdrop-filter: blur(12px);
-    }
-
-    .mic-setup button:active {
-      transform: scale(0.97);
-    }
-
-    .hidden {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -180,11 +147,8 @@
     </svg>
 
     <button id="modeToggle" class="mode-toggle">Practice</button>
-    <div id="status" class="status"></div>
-
-    <!-- One-time microphone setup overlay -->
-    <div id="micSetup" class="mic-setup">
-      <button id="micSetupBtn">Enable microphone</button>
+    <div id="status" class="status">
+      Tap a circle to enter a word. Tap the button to switch between <strong>Practice</strong> and <strong>Theory</strong>.
     </div>
   </div>
 
@@ -194,169 +158,45 @@
     const svg = document.getElementById("triSvg");
     const modeToggle = document.getElementById("modeToggle");
     const statusEl = document.getElementById("status");
-    const micSetupOverlay = document.getElementById("micSetup");
-    const micSetupBtn = document.getElementById("micSetupBtn");
 
     let isPractice = true;
-    let micReady = false;
 
-    // Practice/Theory toggle
+    // Practice/Theory toggle with rotation
     modeToggle.addEventListener("click", () => {
       isPractice = !isPractice;
       modeToggle.textContent = isPractice ? "Practice" : "Theory";
       svg.style.transform = isPractice ? "rotate(0deg)" : "rotate(180deg)";
     });
 
-    // Speech recognition setup
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    let recognition = null;
-    let activeNodeId = null;
-    let isListening = false;
-    let manualStop = false;   // only true when user tapped to stop
-
-    if (!SpeechRecognition) {
-      statusEl.innerHTML =
-        "Speech recognition not supported. Use Chrome or Edge.";
-      micSetupOverlay.classList.add("hidden");
-    } else {
-      recognition = new SpeechRecognition();
-      recognition.continuous = false;     // we will manually restart
-      recognition.lang = "en-US";
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
-
-      recognition.onstart = () => {
-        isListening = true;
-        statusEl.innerHTML = "Listening - tap the same circle to stop.";
-      };
-
-      recognition.onend = () => {
-        isListening = false;
-
-        // If we did not ask to stop, immediately restart to keep listening
-        if (!manualStop && activeNodeId) {
-          setTimeout(() => {
-            try {
-              recognition.start();
-            } catch (e) {
-              console.warn("restart error:", e);
-              statusEl.innerHTML = "Could not restart listening.";
-            }
-          }, 150);
-          return;
-        }
-
-        // Manual stop
-        clearActiveHighlight();
-        if (micReady) {
-          statusEl.innerHTML =
-            "Tap a circle, say one word, tap again to stop.";
-        }
-      };
-
-      recognition.onerror = (event) => {
-        isListening = false;
-        console.error("Speech error:", event.error, event);
-        statusEl.innerHTML = "Speech error: " + event.error;
-        // If it is a harmless timeout/no-speech, we can try to restart
-        if (!manualStop && activeNodeId &&
-            (event.error === "no-speech" || event.error === "network")) {
-          setTimeout(() => {
-            try { recognition.start(); } catch (e) { console.warn(e); }
-          }, 200);
-        } else {
-          clearActiveHighlight();
-        }
-      };
-
-      recognition.onresult = (event) => {
-        if (!activeNodeId) return;
-        const result = event.results[0][0].transcript.trim();
-        const word = result.split(/\s+/)[0] || "";
-        const labelEl = document.getElementById("label-" + activeNodeId);
-        if (labelEl) labelEl.textContent = word.toLowerCase();
-      };
-    }
-
     function clearActiveHighlight() {
       document
         .querySelectorAll(".node.active")
         .forEach((node) => node.classList.remove("active"));
-      activeNodeId = null;
     }
 
-    // One-time mic permission
-    micSetupBtn.addEventListener("click", async () => {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        statusEl.innerHTML =
-          "Audio capture is not supported in this browser.";
-        return;
-      }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        stream.getTracks().forEach(t => t.stop());
-        micReady = true;
-        micSetupOverlay.classList.add("hidden");
-        statusEl.innerHTML =
-          "Mic ready. Tap a circle, say one word, tap again to stop.";
-      } catch (err) {
-        console.error("Mic permission error:", err);
-        statusEl.innerHTML = "Mic permission denied: " + err.name;
-      }
-    });
+    function manualWordEntry(nodeId, nodeElement) {
+      clearActiveHighlight();
+      nodeElement.classList.add("active");
+
+      const labelEl = document.getElementById("label-" + nodeId);
+      const current = labelEl ? labelEl.textContent : "";
+
+      const input = window.prompt("Enter a single word:", current);
+      nodeElement.classList.remove("active");
+      if (!input) return;
+
+      const word = input.trim().split(/\s+/)[0];
+      if (labelEl) labelEl.textContent = word.toLowerCase();
+    }
 
     // Circle click handling
     const nodes = document.querySelectorAll(".node");
     nodes.forEach((node) => {
       node.addEventListener("click", () => {
-        if (!recognition) return;
-        if (!micReady) {
-          statusEl.innerHTML = "Tap 'Enable microphone' first.";
-          return;
-        }
-
         const nodeId = node.getAttribute("data-node-id");
-
-        // Second tap on same node - stop listening
-        if (isListening && activeNodeId === nodeId) {
-          manualStop = true;
-          try {
-            recognition.stop();
-          } catch (e) {
-            console.warn("stop() error:", e);
-          }
-          return;
-        }
-
-        // Switching nodes while listening
-        if (isListening && activeNodeId !== nodeId) {
-          manualStop = true;
-          try {
-            recognition.stop();
-          } catch (e) {
-            console.warn("stop() error:", e);
-          }
-          setTimeout(() => startListeningOnNode(nodeId, node), 200);
-        } else {
-          // First tap - start listening on this node
-          startListeningOnNode(nodeId, node);
-        }
+        manualWordEntry(nodeId, node);
       });
     });
-
-    function startListeningOnNode(nodeId, nodeElement) {
-      clearActiveHighlight();
-      activeNodeId = nodeId;
-      nodeElement.classList.add("active");
-      manualStop = false;
-      try {
-        recognition.start();
-      } catch (e) {
-        console.warn("start() error:", e);
-      }
-    }
   </script>
 </body>
 </html>
