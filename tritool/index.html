@@ -49,10 +49,14 @@
 
     .connector {
       stroke: #fff;
-      stroke-width: 4;
+      stroke-width: 6;
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+    .arrow {
+      fill: #fff;
     }
 
     .node-circle {
@@ -189,29 +193,33 @@
   <div class="app">
     <div class="canvas">
       <svg id="triSvg" viewBox="0 0 100 100">
-        <defs>
-          <marker id="arrowhead"
-                  markerWidth="6"
-                  markerHeight="6"
-                  refX="5"
-                  refY="3"
-                  orient="auto"
-                  markerUnits="strokeWidth">
-            <path d="M0,0 L6,3 L0,6 Z" fill="#ffffff" />
-          </marker>
-        </defs>
+        <!-- Curved connectors approximating a circle -->
+        <!-- Green (25,25) to Blue (75,25) -->
+        <path class="connector"
+              d="M25 25 Q50 0 75 25" />
+        <!-- Blue to Red (50,80) -->
+        <path class="connector"
+              d="M75 25 Q95 55 50 80" />
+        <!-- Red back to Green -->
+        <path class="connector"
+              d="M50 80 Q5 55 25 25" />
 
-        <!-- Connectors with clockwise arrows: green -> red -> blue -> green -->
-        <line class="connector"
-              x1="25" y1="25" x2="50" y2="80"
-              marker-end="url(#arrowhead)" />
-        <line class="connector"
-              x1="50" y1="80" x2="75" y2="25"
-              marker-end="url(#arrowhead)" />
-        <line class="connector"
-              x1="75" y1="25" x2="25" y2="25"
-              marker-end="url(#arrowhead)" />
+        <!-- Larger arrows placed exactly on the midpoints of each curve,
+             aligned with the tangent (clockwise flow: green -> blue -> red -> green) -->
+        <!-- Top arc midpoint: (50, 12.5), tangent angle ~0° -->
+        <polygon class="arrow"
+                 points="-8,-8 8,0 -8,8"
+                 transform="translate(50,12.5) rotate(0)" />
+        <!-- Right arc midpoint: (78.75, 53.75), tangent angle ~115° -->
+        <polygon class="arrow"
+                 points="-8,-8 8,0 -8,8"
+                 transform="translate(78.75,53.75) rotate(115)" />
+        <!-- Left arc midpoint: (21.25, 53.75), tangent angle ~-115° -->
+        <polygon class="arrow"
+                 points="-8,-8 8,0 -8,8"
+                 transform="translate(21.25,53.75) rotate(-115)" />
 
+        <!-- Nodes -->
         <g class="node" data-node-id="1">
           <circle class="node-circle node-green" cx="25" cy="25" r="14" />
           <text id="label-1" class="node-label"
