@@ -214,6 +214,7 @@
     let recognition = null;
     let activeNodeId = null;
     let isListening = false;
+    let manualStop = false;   // only true when user tapped to stop
 
     if (!SpeechRecognition) {
       statusEl.innerHTML =
@@ -221,7 +222,7 @@
       micSetupOverlay.classList.add("hidden");
     } else {
       recognition = new SpeechRecognition();
-      recognition.continuous = false;
+      recognition.continuous = false;     // we will manually restart
       recognition.lang = "en-US";
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
@@ -233,17 +234,41 @@
 
       recognition.onend = () => {
         isListening = false;
+
+        // If we did not ask to stop, immediately restart to keep listening
+        if (!manualStop && activeNodeId) {
+          setTimeout(() => {
+            try {
+              recognition.start();
+            } catch (e) {
+              console.warn("restart error:", e);
+              statusEl.innerHTML = "Could not restart listening.";
+            }
+          }, 150);
+          return;
+        }
+
+        // Manual stop
         clearActiveHighlight();
         if (micReady) {
-          statusEl.innerHTML = "Tap a circle, say one word, tap again to stop.";
+          statusEl.innerHTML =
+            "Tap a circle, say one word, tap again to stop.";
         }
       };
 
       recognition.onerror = (event) => {
         isListening = false;
-        clearActiveHighlight();
         console.error("Speech error:", event.error, event);
         statusEl.innerHTML = "Speech error: " + event.error;
+        // If it is a harmless timeout/no-speech, we can try to restart
+        if (!manualStop && activeNodeId &&
+            (event.error === "no-speech" || event.error === "network")) {
+          setTimeout(() => {
+            try { recognition.start(); } catch (e) { console.warn(e); }
+          }, 200);
+        } else {
+          clearActiveHighlight();
+        }
       };
 
       recognition.onresult = (event) => {
@@ -271,7 +296,6 @@
       }
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        // We just needed permission, so stop the tracks
         stream.getTracks().forEach(t => t.stop());
         micReady = true;
         micSetupOverlay.classList.add("hidden");
@@ -295,15 +319,28 @@
 
         const nodeId = node.getAttribute("data-node-id");
 
+        // Second tap on same node - stop listening
         if (isListening && activeNodeId === nodeId) {
-          recognition.stop();
+          manualStop = true;
+          try {
+            recognition.stop();
+          } catch (e) {
+            console.warn("stop() error:", e);
+          }
           return;
         }
 
+        // Switching nodes while listening
         if (isListening && activeNodeId !== nodeId) {
-          recognition.stop();
-          setTimeout(() => startListeningOnNode(nodeId, node), 150);
+          manualStop = true;
+          try {
+            recognition.stop();
+          } catch (e) {
+            console.warn("stop() error:", e);
+          }
+          setTimeout(() => startListeningOnNode(nodeId, node), 200);
         } else {
+          // First tap - start listening on this node
           startListeningOnNode(nodeId, node);
         }
       });
@@ -313,6 +350,7 @@
       clearActiveHighlight();
       activeNodeId = nodeId;
       nodeElement.classList.add("active");
+      manualStop = false;
       try {
         recognition.start();
       } catch (e) {
