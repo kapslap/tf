@@ -64,17 +64,25 @@
     text.node-label {
       pointer-events: none;
       fill: #222;
-      font-size: 6px;
+      font-size: 4px;           /* smaller text in circles */
       font-weight: 600;
       text-transform: lowercase;
+      transform-box: fill-box;   /* allow per-text rotation around its own box */
+      transform-origin: center;
     }
 
-    .mode-toggle {
+    .controls {
       position: absolute;
       right: 1.2rem;
       bottom: 1.2rem;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.9rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
       font-weight: 600;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.5);
@@ -85,9 +93,10 @@
       outline: none;
       transition: background 0.15s ease, transform 0.1s ease,
         box-shadow 0.15s ease;
+      white-space: nowrap;
     }
 
-    .mode-toggle:active {
+    .btn:active {
       transform: scale(0.96);
       box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
     }
@@ -96,7 +105,7 @@
       position: absolute;
       left: 1.2rem;
       bottom: 1.2rem;
-      right: 5.5rem;
+      right: 8.5rem;
       font-size: 0.75rem;
       line-height: 1.3;
       color: #c2c2c2;
@@ -146,9 +155,14 @@
       </g>
     </svg>
 
-    <button id="modeToggle" class="mode-toggle">Practice</button>
+    <!-- Controls: Practice/Theory + Clear -->
+    <div class="controls">
+      <button id="clearBtn" class="btn">Clear</button>
+      <button id="modeToggle" class="btn">Practice</button>
+    </div>
+
     <div id="status" class="status">
-      Tap a circle to enter a word. Tap the button to switch between <strong>Practice</strong> and <strong>Theory</strong>.
+      Tap a circle to enter a word. Tap <strong>Practice/Theory</strong> to rotate the diagram; text stays upright. Use <strong>Clear</strong> to empty all circles.
     </div>
   </div>
 
@@ -157,15 +171,32 @@
 
     const svg = document.getElementById("triSvg");
     const modeToggle = document.getElementById("modeToggle");
+    const clearBtn = document.getElementById("clearBtn");
     const statusEl = document.getElementById("status");
+    const labels = document.querySelectorAll(".node-label");
 
-    let isPractice = true;
+    let rotation = 0; // cumulative rotation in degrees; always increases (clockwise)
 
-    // Practice/Theory toggle with rotation
-    modeToggle.addEventListener("click", () => {
-      isPractice = !isPractice;
+    function updateRotation() {
+      // Rotate the whole SVG
+      svg.style.transform = `rotate(${rotation}deg)`;
+      // Rotate labels back around their own centers to keep them upright
+      labels.forEach(label => {
+        label.style.transform = `rotate(${-rotation}deg)`;
+      });
+    }
+
+    function updateModeLabel() {
+      // Alternate label based on whether we are at even or odd multiple of 180
+      const isPractice = (rotation / 180) % 2 === 0;
       modeToggle.textContent = isPractice ? "Practice" : "Theory";
-      svg.style.transform = isPractice ? "rotate(0deg)" : "rotate(180deg)";
+    }
+
+    // Practice/Theory button: rotate clockwise by 180° each click
+    modeToggle.addEventListener("click", () => {
+      rotation += 180;          // always clockwise
+      updateRotation();
+      updateModeLabel();
     });
 
     function clearActiveHighlight() {
@@ -197,6 +228,17 @@
         manualWordEntry(nodeId, node);
       });
     });
+
+    // Clear button: empty all labels
+    clearBtn.addEventListener("click", () => {
+      labels.forEach(label => {
+        label.textContent = "";
+      });
+    });
+
+    // Initial rotation state
+    updateRotation();
+    updateModeLabel();
   </script>
 </body>
 </html>
